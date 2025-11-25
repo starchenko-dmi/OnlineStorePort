@@ -38,3 +38,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ContactInfo(models.Model):
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    phone = models.CharField(max_length=20, verbose_name="Телефон")
+    email = models.EmailField(verbose_name="Email")
+    opening_hours = models.TextField(verbose_name="Часы работы", blank=True)
+
+    class Meta:
+        verbose_name = "Контактная информация"
+        verbose_name_plural = "Контактные данные"
+
+    def __str__(self):
+        return f"Контакты: {self.address}"

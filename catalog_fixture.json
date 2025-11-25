@@ -1,0 +1,65 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "Смартфон XYZ",
+        "description": "Флагманский смартфон с отличной камерой",
+        "image": "",
+        "category": 1,
+        "purchase_price": "42000.00",
+        "created_at": "2025-11-25T05:20:46.877Z",
+        "updated_at": "2025-11-25T05:24:45.476Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Джинсы Classic Fit",
+        "description": "Удобные джинсы из 100% хлопка",
+        "image": "",
+        "category": 3,
+        "purchase_price": "3500.00",
+        "created_at": "2025-11-25T05:21:10.093Z",
+        "updated_at": "2025-11-25T05:21:10.093Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Наушники Wireless",
+        "description": "Беспроводные наушники с шумоподавлением",
+        "image": "",
+        "category": 1,
+        "purchase_price": "12000.00",
+        "created_at": "2025-11-25T05:21:25.818Z",
+        "updated_at": "2025-11-25T05:21:25.818Z"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Электроника",
+        "description": "Гаджеты и устройства"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Книги",
+        "description": "Художественная и научная литература"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Одежда",
+        "description": "Модная и повседневная одежда"
+    }
+}
+]

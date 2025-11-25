@@ -26,18 +26,15 @@
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
                     <table class="table table-striped">
-                        <tr>
-                            <td class="w-25">Страна</td>
-                            <td>Россия</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">ИНН</td>
-                            <td>5439300134</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">Адрес</td>
-                            <td>Новосибирская обл. с. Убинское</td>
-                        </tr>
+                        <h1>Контакты</h1>
+                        {% if contact_info %}
+                          <p><strong>Адрес:</strong> {{ contact_info.address }}</p>
+                          <p><strong>Телефон:</strong> {{ contact_info.phone }}</p>
+                          <p><strong>Email:</strong> {{ contact_info.email }}</p>
+                          <p><strong>Часы работы:</strong><br>{{ contact_info.opening_hours|linebreaks }}</p>
+                        {% else %}
+                          <p>Контактная информация пока не добавлена.</p>
+                        {% endif %}
                     </table>
                 </div>
             </div>
