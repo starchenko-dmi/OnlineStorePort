@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('catalog.urls', 'catalog'), namespace='catalog')),
+    path('', include(('blog.urls', 'blog'), namespace='blog')),
 ]
 
 # Только при DEBUG = True!

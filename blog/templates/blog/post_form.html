@@ -1,0 +1,32 @@
+{% extends 'catalog/base.html' %}
+{% block title %}{% if object %}Редактировать запись{% else %}Новая запись{% endif %}{% endblock %}
+{% block content_1 %}{% include 'catalog/main_menu.html' %}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <h2>{% if object %}Редактировать запись{% else %}Создать новую запись{% endif %}</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
+                {{ form.title }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.preview.id_for_label }}" class="form-label">Превью (изображение)</label>
+                {{ form.preview }}
+            </div>
+            <div class="mb-3">
+                <label for="{{ form.content.id_for_label }}" class="form-label">Содержимое</label>
+                {{ form.content }}
+            </div>
+            <div class="mb-3 form-check">
+                {{ form.is_published }}
+                <label for="{{ form.is_published.id_for_label }}" class="form-check-label">Опубликовано</label>
+            </div>
+            <button type="submit" class="btn btn-primary">{% if object %}Сохранить{% else %}Создать{% endif %}</button>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
