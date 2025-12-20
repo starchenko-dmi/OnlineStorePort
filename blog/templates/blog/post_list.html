@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Блог — Список записей{% endblock %}
+{% block content_1 %}{% include 'catalog/main_menu.html' %}{% endblock %}
+{% block content %}
+<h1>Блог</h1>
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            {% if post.preview %}
+                <img src="{{ post.preview.url }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Превью">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="text-muted">Создано: {{ post.created_at|date:"d.m.Y" }} | Просмотров: {{ post.views_count }}</p>
+                <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-outline-primary">Читать далее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Нет опубликованных записей.</p>
+    {% endfor %}
+</div>
+{% endblock %}

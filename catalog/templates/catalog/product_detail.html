@@ -5,17 +5,17 @@
 {% block content_1 %}{% include 'catalog/main_menu.html' %}{% endblock %}
 
 {% block content %}
-<h2>{{ product.name }}</h2>
+<h2>{{ object.name }}</h2>
 <!-- Вывод изображения -->
-{% if product.image %}
+{% if object.image %}
     <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
 {% else %}
     <p>Изображение отсутствует</p>
 {% endif %}
-<p>Цена: {{ product.purchase_price }} </p>
-<p>Описание: {{ product.description }}</p>
-<p>Категория: {{ product.category.name }} </p>
-<p>Описание категории: {{ product.category.description }}</p>
-<p>Дата создания: {{ product.created_at|date:'d M Y' }}</p>
-<p>Последнее изменение: {{ product.updated_at|date:'d M Y' }}</p>
+<p>Цена: {{ object.purchase_price }} </p>
+<p>Описание: {{ object.description }}</p>
+<p>Категория: {{ object.category.name }} </p>
+<p>Описание категории: {{ object.category.description }}</p>
+<p>Дата создания: {{ object.created_at|date:'d M Y' }}</p>
+<p>Последнее изменение: {{ object.updated_at|date:'d M Y' }}</p>
 {% endblock %}
