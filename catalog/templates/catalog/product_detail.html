@@ -18,4 +18,7 @@
 <p>Описание категории: {{ object.category.description }}</p>
 <p>Дата создания: {{ object.created_at|date:'d M Y' }}</p>
 <p>Последнее изменение: {{ object.updated_at|date:'d M Y' }}</p>
+<a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-secondary">Редактировать</a>
+<a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+<a href="{% url 'catalog:product_list' %}" class="btn btn-primary">Вернуться к списку</a>
 {% endblock %}

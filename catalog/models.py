@@ -23,7 +23,7 @@ class Product(models.Model):
         related_name='products',
         verbose_name="Категория"
     )
-    purchase_price = models.DecimalField(
+    price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         verbose_name="Цена за покупку"

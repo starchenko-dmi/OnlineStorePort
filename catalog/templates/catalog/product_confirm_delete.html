@@ -1,0 +1,14 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Контакты{% endblock %}
+{% block content_1 %}{% include 'catalog/main_menu.html' %}{% endblock %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите удалить "{{ object.name }}"?</p>
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'catalog:product_list' %}">Отмена</a>
+</form>
+
+{% endblock %}
