@@ -1,0 +1,25 @@
+<!--{% extends 'catalog/base.html' %}-->
+<!--{% block title %}{{ post.title }}{% endblock %}-->
+<!--{% block content_1 %}{% include 'catalog/main_menu.html' %}{% endblock %}-->
+<!--{% block content %}-->
+<!--<div class="row">-->
+<!--    <div class="col-lg-8 mx-auto">-->
+<!--        <h1>{{ post.title }}</h1>-->
+<!--        <p class="text-muted">Дата публикации: {{ post.created_at|date:"d.m.Y H:i" }} | Просмотров: {{ post.views_count }}</p>-->
+
+<!--        {% if post.preview %}-->
+<!--            <img src="{{ post.preview.url }}" class="img-fluid mb-3" alt="Превью">-->
+<!--        {% endif %}-->
+
+<!--        <div class="content">-->
+<!--            {{ post.content|linebreaks }}-->
+<!--        </div>-->
+
+<!--        <div class="mt-4">-->
+<!--            <a href="{% url 'user:update' post.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>-->
+<!--            <a href="{% url 'user:delete' post.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>-->
+<!--            <a href="{% url 'user:detail' %}" class="btn btn-sm btn-outline-primary"></a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--{% endblock %}-->
