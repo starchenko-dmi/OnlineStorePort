@@ -18,7 +18,22 @@
 <p>Описание категории: {{ object.category.description }}</p>
 <p>Дата создания: {{ object.created_at|date:'d M Y' }}</p>
 <p>Последнее изменение: {{ object.updated_at|date:'d M Y' }}</p>
-<a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-secondary">Редактировать</a>
-<a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+{% if user == object.owner %}
+    <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-secondary">Редактировать</a>
+{% endif %}
+
+{% if perms.catalog.can_unpublish_product and object.is_published %}
+    <a href="{% url 'catalog:product_unpublish' object.pk %}" class="btn btn-warning">Снять с публикации</a>
+{% endif %}
+
+{% if user == object.owner or perms.catalog.delete_product %}
+    <a href="{% url 'catalog:product_delete' object.pk %}"
+       class="btn btn-danger"
+       onclick="return confirm('Удалить?')">
+        Удалить
+    </a>
+{% endif %}
+
 <a href="{% url 'catalog:product_list' %}" class="btn btn-primary">Вернуться к списку</a>
+
 {% endblock %}
