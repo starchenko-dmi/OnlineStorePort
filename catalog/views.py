@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import FormView
@@ -6,8 +6,27 @@ from .forms import ContactForm, ProductForm
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
+from .mixins import OwnerRequiredMixin, ProductDeletePermissionMixin
 from .models import ContactInfo, Product
 from django.core.paginator import Paginator
+
+
+class UnpublishProductView(PermissionRequiredMixin, UpdateView):
+    model = Product
+    permission_required = 'catalog.can_unpublish_product'  # обязательно с app_label!
+    template_name = 'products/unpublish_confirm.html'
+    fields = []  # не редактируем поля, только действие
+
+    def form_valid(self, form):
+        # Отменяем публикацию
+        self.object.is_published = False
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('product_detail', kwargs={'pk': self.object.pk})
+
 
 class ProductListView(ListView):
     model = Product
@@ -44,17 +63,20 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    form_class = ProductForm
-    template_name = 'catalog/product_form.html'
+    fields = ['name', 'description', 'image', 'category', 'price', 'is_published']
     success_url = reverse_lazy('catalog:product_list')
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # ← автоматически назначаем владельца
+        return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:product_list')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, ProductDeletePermissionMixin, DeleteView):
     model = Product
-    template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:product_list')
