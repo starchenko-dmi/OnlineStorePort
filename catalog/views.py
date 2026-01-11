@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import FormView
 from .forms import ContactForm, ProductForm
 
@@ -8,8 +10,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 
 from .mixins import OwnerRequiredMixin, ProductDeletePermissionMixin
-from .models import ContactInfo, Product
+from .models import ContactInfo, Product, Category
 from django.core.paginator import Paginator
+
+from .services import get_products_by_category, get_published_products
 
 
 class UnpublishProductView(PermissionRequiredMixin, UpdateView):
@@ -31,6 +35,9 @@ class UnpublishProductView(PermissionRequiredMixin, UpdateView):
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
+
+    def get_queryset(self):
+        return get_published_products()
 
 
 class ContactsView(FormView):
@@ -57,6 +64,7 @@ class ProductListView(ListView):
     context_object_name = 'products'
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
@@ -80,3 +88,31 @@ class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, ProductDeletePermissionMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+
+class ProductsByCategoryView(ListView):
+    model = Product
+    template_name = 'catalog/products_by_category.html'
+    context_object_name = 'products'
+    paginate_by = 8
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        return get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs['category_id']
+        context['category'] = get_object_or_404(Category, id=category_id)
+        return context
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'catalog/category_list.html'
+    context_object_name = 'categories'
+    paginate_by = 12  # например, 12 категорий на страницу
+
+    def get_queryset(self):
+        # Сортируем категории по имени (алфавиту)
+        return Category.objects.all().order_by('name')
